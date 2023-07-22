@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_app/data/questions.dart';
 import 'package:quiz_app/gradient_container.dart';
 import 'package:quiz_app/question_screen.dart';
+import 'package:quiz_app/results_screen.dart';
 
-class Quiz extends StatefulWidget{
- const  Quiz({super.key});
+class Quiz extends StatefulWidget {
+  const Quiz({super.key});
   @override
- State<Quiz> createState(){
-  return _QuizState();
- }
+  State<Quiz> createState() {
+    return _QuizState();
+  }
 }
 
-class _QuizState extends State<Quiz>{
+class _QuizState extends State<Quiz> {
+   List<String> selectedAnswer = [];
 
- var activeScreen = 'start-screen';
+  var activeScreen = 'start-screen';
 
 //  Widget ? activeScreen;
- 
+
 //  @override
 //   void initState(){
 //   activeScreen =  GradientContainer(switchScreen);
@@ -26,35 +29,53 @@ class _QuizState extends State<Quiz>{
 //     activeScreen =  const QuizScreen();
 //   });
 //  }
-void switchScreen(){
-  setState(() {
-    activeScreen = 'question-screen';
-  });
- }
+  void switchScreen() {
+    setState(() {
+      activeScreen = 'question-screen';
+    });
+  }
+
+  void choosenAnswer(String answer) {
+    selectedAnswer.add(answer);
+ 
+  if(selectedAnswer.length == questions.length){
+    setState(() {
+      //  selectedAnswer = [];
+      activeScreen = 'result-screen';
+    });
+    
+  }
+
+  }
 
   @override
-  Widget build(context){
+  Widget build(context) {
     Widget screenWidget = GradientContainer(switchScreen);
-    
-    if(activeScreen == 'question-screen'){
-    screenWidget= const QuizScreen();
+
+    if (activeScreen == 'question-screen') {
+      screenWidget = QuizScreen(
+        onSelectAnswer: choosenAnswer,
+      );
     }
+
+     if(activeScreen=='result-screen'){
+      screenWidget =  ResultsScreen(choosenAnswer: selectedAnswer,);
+     }
     return MaterialApp(
-          home : Scaffold(
-            body:  Container(
-          decoration: const  BoxDecoration(
-            gradient: LinearGradient(colors : [Color.fromARGB(255, 196, 218, 0),
-            Color.fromARGB(255, 230, 231, 173)],
-            begin : Alignment.topLeft,
+      home: Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+              gradient: LinearGradient(
+            colors: [
+              Color.fromARGB(255, 196, 218, 0),
+              Color.fromARGB(255, 230, 231, 173)
+            ],
+            begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-           
-            )
-            
-          ),
-      
-              child: screenWidget,
-            ),
-          ),
+          )),
+          child: screenWidget,
+        ),
+      ),
     );
   }
 }
