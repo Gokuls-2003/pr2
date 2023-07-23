@@ -19,7 +19,7 @@ class QuestionIndetifer extends StatelessWidget {
      alignment: Alignment.center,
      decoration: BoxDecoration(
       color: isCorrectAnswer 
-      ? const Color.fromARGB(255, 94, 143, 184) 
+      ? Color.fromARGB(255, 243, 243, 243) 
       : const Color.fromARGB(255, 212, 21, 85),
       borderRadius: BorderRadius.circular(100),  
      ),
